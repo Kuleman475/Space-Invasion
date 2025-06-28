@@ -16,7 +16,7 @@ class Enemies:
         self.bigBoss_list = arcade.SpriteList()
         self.bigBoss_list.append(self.bigBoss)
 
-        # Walls / slimes
+        # Enemies
         self.enemy_list = arcade.SpriteList()
 
         # Add crates at specific coordinates

@@ -11,6 +11,9 @@ PLAYER_MOVEMENT_SPEED = 5
 ENEMY_MOVEMENT_SPEED = 1
 BOSS_MOVEMENT_SPEED = 2
 
+PLAYER_BULLET_SPEED = 7
+ENEMY_BULLET_SPEED = 4
+
 ENEMY_VERTICAL_MARGIN = 15
 RIGHT_ENEMY_BORDER = SCREEN_WIDTH - ENEMY_VERTICAL_MARGIN
 LEFT_ENEMY_BORDER = ENEMY_VERTICAL_MARGIN
@@ -29,6 +32,7 @@ class MyGame(arcade.Window):
 
     def setup(self):
         self.enemies = Enemies()
+        self.player = Player()
 
     def on_draw(self):
         self.clear()
@@ -36,6 +40,7 @@ class MyGame(arcade.Window):
         if self.enemies:
             self.enemies.draw()
         self.enemies.enemy_list.draw()
+        self.player.player_bullet_list.draw()
 
 
 #update each frame
@@ -43,6 +48,11 @@ class MyGame(arcade.Window):
         self.player_list.update()
         self.update_enemies()
         self.update_big_boss()
+        self.player.player_bullet_list.update()
+        for bullet in self.player.player_bullet_list:
+            if bullet.top > SCREEN_HEIGHT:
+                bullet.remove_from_sprite_lists()
+
 
     def update_big_boss(self):
         for enemy in self.enemies.bigBoss_list:
@@ -77,6 +87,20 @@ class MyGame(arcade.Window):
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
 
+        elif key == arcade.key.SPACE:
+            if len(self.player.player_bullet_list) < 5:
+
+                bullet = arcade.Sprite(":resources:/images/space_shooter/laserRed01.png", scale=0.5)
+                bullet.change_y = +PLAYER_BULLET_SPEED
+                bullet.center_x = self.player_sprite.center_x
+                bullet.bottom = self.player_sprite.top
+
+                # Add the bullet to the appropriate lists
+
+                self.player.player_bullet_list.append(bullet)
+        elif key == arcade.key.ESCAPE:
+            self.window.close()
+          
     def on_key_release(self, key, modifiers):
         
         if key == arcade.key.LEFT or key == arcade.key.A:
