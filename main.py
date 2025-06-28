@@ -14,6 +14,8 @@ BOSS_MOVEMENT_SPEED = 2
 PLAYER_BULLET_SPEED = 7
 ENEMY_BULLET_SPEED = 4
 
+BOSS_HP = 5
+
 ENEMY_VERTICAL_MARGIN = 15
 RIGHT_ENEMY_BORDER = SCREEN_WIDTH - ENEMY_VERTICAL_MARGIN
 LEFT_ENEMY_BORDER = ENEMY_VERTICAL_MARGIN
@@ -52,7 +54,7 @@ class MyGame(arcade.Window):
         for bullet in self.player.player_bullet_list:
             if bullet.top > SCREEN_HEIGHT:
                 bullet.remove_from_sprite_lists()
-
+        self.process_player_bullets()
 
     def update_big_boss(self):
         for enemy in self.enemies.bigBoss_list:
@@ -88,7 +90,7 @@ class MyGame(arcade.Window):
             self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
 
         elif key == arcade.key.SPACE:
-            if len(self.player.player_bullet_list) < 5:
+            if len(self.player.player_bullet_list) < 3:
 
                 bullet = arcade.Sprite(":resources:/images/space_shooter/laserRed01.png", scale=0.5)
                 bullet.change_y = +PLAYER_BULLET_SPEED
@@ -108,6 +110,35 @@ class MyGame(arcade.Window):
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.player_sprite.change_x = 0
 
+
+    def process_player_bullets(self):
+        # Move bullets
+        self.player.player_bullet_list.update()
+
+        # Loop through each bullet
+        for bullet in self.player.player_bullet_list:
+
+            # Check collision with Boss
+            hit_list = arcade.check_for_collision_with_list(bullet, self.enemies.bigBoss_list)
+            if hit_list:
+                bullet.remove_from_sprite_lists()
+                for boss in hit_list:
+                    if BOSS_HP > 0:
+                        BOSS_HP - 1
+                    else:
+                        boss.remove_from_sprite_lists()
+                continue
+
+            # Check collision with enemies
+            hit_list = arcade.check_for_collision_with_list(bullet, self.enemies.enemy_list)
+            if hit_list:
+                bullet.remove_from_sprite_lists()
+                for enemy in hit_list:
+                    enemy.remove_from_sprite_lists()
+
+            # Remove bullet if it flies off top of screen
+            if bullet.top > SCREEN_HEIGHT:
+                bullet.remove_from_sprite_lists()
 
 def main():
     game = MyGame()
