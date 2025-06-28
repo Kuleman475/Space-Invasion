@@ -7,6 +7,13 @@ SCREEN_WIDTH = 1360
 SCREEN_HEIGHT = 700
 SCREEN_TITLE = "Space Invasion AAAAAHHHHH!!!!"
 
+
+    # bigBoss = ":resources:/images/alien/alienBlue_front.png"
+    # blueSlime = ":resources:/images/enemies/slimeBlue.png"
+    # greenSlime = ":resources:/images/enemies/slimeGreen.png"
+    # slimeBlock = ":resources:/images/enemies/slimeBlock.png"
+
+
 class MyGame(arcade.Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
@@ -38,3 +45,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
