@@ -1,30 +1,50 @@
 import arcade
 
+
+    # bigBoss = ":resources:/images/alien/alienBlue_front.png"
+    # blueSlime = ":resources:/images/enemies/slimeBlue.png"
+    # greenSlime = ":resources:/images/enemies/slimeGreen.png"
+    # slimeBlock = ":resources:/images/enemies/slimeBlock.png"
+
+
 class Enemies:
     def __init__(self):
         # Big boss sprite
         self.bigBoss = arcade.Sprite(":resources:/images/alien/alienBlue_front.png", scale=0.5)
         self.bigBoss.center_x = 680
         self.bigBoss.center_y = 650
+        self.bigBoss_list = arcade.SpriteList()
+        self.bigBoss_list.append(self.bigBoss)
 
         # Walls / slimes
-        self.wall_list = arcade.SpriteList()
-
-        # Add grass tiles
-        for x in range(0, 1250, 64):
-            wall = arcade.Sprite(":resources:images/tiles/grassMid.png", scale=0.5)
-            wall.center_x = x
-            wall.center_y = 32
-            self.wall_list.append(wall)
+        self.enemy_list = arcade.SpriteList()
 
         # Add crates at specific coordinates
-        coordinate_list = [[512, 96], [256, 96], [768, 96]]
+        coordinate_list = [
+            [75, 550],
+            [150, 550],
+            [225, 550],
+            [300, 550],
+            [375, 550],
+            [450, 550],
+            [525, 550],
+            [600, 550],
+            [675, 550],
+            [750, 550],
+            [825, 550],
+            [900, 550],
+            [975, 550],
+            [1050, 550],
+            [1125, 550],
+            [1200, 550],
+            [1275, 550],
+        ]
         for coordinate in coordinate_list:
-            crate = arcade.Sprite(":resources:images/tiles/boxCrate_double.png", scale=0.5)
+            crate = arcade.Sprite(":resources:/images/enemies/slimeBlock.png", scale=0.5)
             crate.position = coordinate
-            self.wall_list.append(crate)
+            self.enemy_list.append(crate)
 
     def draw(self):
         # Draw boss and all walls/crates
         self.bigBoss.draw()
-        self.wall_list.draw()
+        self.enemy_list.draw()
