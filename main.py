@@ -1,4 +1,5 @@
 import arcade
+import random
 
 from player import Player
 from aliens import Enemies
@@ -26,8 +27,8 @@ class MyGame(arcade.Window):
         arcade.set_background_color(arcade.color.BLACK)
 
         self.player_list = arcade.SpriteList()
-        self.player_sprite = Player()
-        self.player_list.append(self.player_sprite)
+        self.player = Player()
+        self.player_list.append(self.player.player_list)
 
         self.enemy_change_x = -ENEMY_MOVEMENT_SPEED
         self.big_boss_change = -BOSS_MOVEMENT_SPEED
@@ -51,10 +52,16 @@ class MyGame(arcade.Window):
         self.update_enemies()
         self.update_big_boss()
         self.player.player_bullet_list.update()
+        self.enemies.enemy_bullet_list.update()
         for bullet in self.player.player_bullet_list:
             if bullet.top > SCREEN_HEIGHT:
                 bullet.remove_from_sprite_lists()
         self.process_player_bullets()
+        self.allow_enemies_to_fire()
+
+        for bullet in self.enemies.enemy_bullet_list:
+            if bullet.bottom < 0:
+                bullet.remove_from_sprite_lists()
 
     def update_big_boss(self):
         for enemy in self.enemies.bigBoss_list:
@@ -112,7 +119,7 @@ class MyGame(arcade.Window):
 
 
     def process_player_bullets(self):
-        # Move bullets
+        # Move bullets 
         self.player.player_bullet_list.update()
 
         # Loop through each bullet
@@ -123,9 +130,8 @@ class MyGame(arcade.Window):
             if hit_list:
                 bullet.remove_from_sprite_lists()
                 for boss in hit_list:
-                    if BOSS_HP > 0:
-                        BOSS_HP - 1
-                    else:
+                    self.enemies.bigBossHP -= 1
+                    if self.enemies.bigBossHP <= 0:
                         boss.remove_from_sprite_lists()
                 continue
 
@@ -139,6 +145,58 @@ class MyGame(arcade.Window):
             # Remove bullet if it flies off top of screen
             if bullet.top > SCREEN_HEIGHT:
                 bullet.remove_from_sprite_lists()
+
+
+
+    def process_enemy_bullets(self):
+        self.enemies.enemy_bullet_list.update()
+
+        # Loop through each bullet
+        for bullet in self.enemies.enemy_bullet_list:
+
+            # Check collision with Boss
+            hit_list = arcade.check_for_collision_with_list(bullet, self.player.player_list)
+            if hit_list:
+                bullet.remove_from_sprite_lists()
+                for enemy in hit_list:
+                    enemy.remove_from_sprite_lists()
+
+
+
+    def allow_enemies_to_fire(self):
+
+        x_spawn = []
+
+        for enemy in self.enemies.enemy_list:
+            # Slightly higher firing rate
+            
+            if len(self.enemies.enemy_list) < 5:
+                chance = 4 + len(self.enemies.enemy_list) * 3
+
+            else:
+                chance = 4 + len(self.enemies.enemy_list) * 20
+            
+            if random.randrange(chance) == 0 and enemy.center_x not in x_spawn:
+                self.create_enemy_bullet(enemy)
+                x_spawn.append(enemy.center_x)
+
+
+    def create_enemy_bullet(self, enemy):
+        bullet = arcade.Sprite(":resources:/images/space_shooter/meteorGrey_small1.png", scale=0.5)
+        bullet.angle = 0
+        bullet.change_y = -ENEMY_BULLET_SPEED
+        bullet.center_x = enemy.center_x
+        bullet.top = enemy.bottom
+        self.enemies.enemy_bullet_list.append(bullet)
+
+        if len(self.enemies.enemy_list) <= 0:
+            bossBullet = arcade.Sprite(":resources:/images/space_shooter/meteorGrey_big3.png", scale=0.5)
+            bossBullet.angle = 0
+            bossBullet.change_y = -ENEMY_BULLET_SPEED + 2
+            bossBullet.center_x = enemy.center_x
+            bossBullet.top = enemy.bottom
+            self.enemies.enemy_bullet_list.append(bullet)
+
 
 def main():
     game = MyGame()

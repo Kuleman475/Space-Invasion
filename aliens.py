@@ -9,6 +9,7 @@ import arcade
 
 class Enemies:
     def __init__(self):
+        self.bigBossHP = 5
         # Big boss sprite
         self.bigBoss = arcade.Sprite(":resources:/images/alien/alienBlue_front.png", scale=0.5)
         self.bigBoss.center_x = 680
@@ -44,7 +45,11 @@ class Enemies:
             crate.position = coordinate
             self.enemy_list.append(crate)
 
+        self.enemy_bullet_list = arcade.SpriteList()
+
     def draw(self):
         # Draw boss and all walls/crates
         self.bigBoss.draw()
         self.enemy_list.draw()
+        self.enemy_bullet_list.draw()
+
