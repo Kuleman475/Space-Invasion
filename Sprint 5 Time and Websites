@@ -9,6 +9,8 @@ SPRINT 5 TIME AND WEBSITES
 1 hour player fire
 1 hour make enemies disappear when hit
 1 hour make Boss have HP
+2 hour player get hit
+1.5 Game over Screen / Win Screen
 
 
 
@@ -17,4 +19,4 @@ https://api.arcade.academy/en/stable/get_started/install.html#windows-linux-and-
 https://api.arcade.academy/en/stable/tutorials/platform_tutorial/step_04.html
 https://api.arcade.academy/en/stable/example_code/slime_invaders.html#slime-invaders
 https://api.arcade.academy/en/stable/api_docs/resources.html
-
+https://api.arcade.academy/en/latest/example_code/view_instructions_and_game_over.html
