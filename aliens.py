@@ -13,7 +13,7 @@ class Enemies:
         # Enemies
         self.enemy_list = arcade.SpriteList()
 
-        # Add crates at specific coordinates
+        # Add enemies at specific coordinates
         coordinate_list = [
             [75, 550],
             [150, 550],
@@ -41,7 +41,7 @@ class Enemies:
         self.enemy_bullet_list = arcade.SpriteList()
 
     def draw(self):
-        # Draw boss and all walls/crates
+        # Draw boss and all enemies
         self.bigBoss.draw()
         self.enemy_list.draw()
         self.enemy_bullet_list.draw()
