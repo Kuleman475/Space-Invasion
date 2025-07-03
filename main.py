@@ -272,7 +272,7 @@ class GameOver(arcade.View):
             anchor_x="center")
 
         arcade.draw_text(
-            "Click to restart",
+            "Click or press Enter to restart ",
             start_x=SCREEN_WIDTH / 2,
             start_y=300,
             color=arcade.color.WHITE,
@@ -287,7 +287,7 @@ class GameOver(arcade.View):
 
 #Press Space to play again
     def on_key_press(self, key, modifiers):
-        if key == arcade.key.SPACE:
+        if key == arcade.key.ENTER:
             game_view = MyGame()
             game_view.setup()
             self.window.show_view(game_view)
@@ -315,7 +315,7 @@ class GameWin(arcade.View):
         
 #Say Click to play again on screen
         arcade.draw_text(
-            "Click to Play Again",
+            "Click or press Enter to Play Again",
             start_x=SCREEN_WIDTH / 2,
             start_y=300,
             color=arcade.color.BLUE,
@@ -328,7 +328,7 @@ class GameWin(arcade.View):
         self.window.show_view(game_view)
     
     def on_key_press(self, key, modifiers):
-        if key == arcade.key.SPACE:
+        if key == arcade.key.ENTER:
             game_view = MyGame()
             game_view.setup()
             self.window.show_view(game_view)

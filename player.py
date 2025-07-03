@@ -8,5 +8,4 @@ class Player(arcade.Sprite):
 
         self.health = 1
 
-
         self.player_bullet_list = arcade.SpriteList()

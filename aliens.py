@@ -1,12 +1,5 @@
 import arcade
 
-
-    # bigBoss = ":resources:/images/alien/alienBlue_front.png"
-    # blueSlime = ":resources:/images/enemies/slimeBlue.png"
-    # greenSlime = ":resources:/images/enemies/slimeGreen.png"
-    # slimeBlock = ":resources:/images/enemies/slimeBlock.png"
-
-
 class Enemies:
     def __init__(self):
         self.bigBossHP = 5
